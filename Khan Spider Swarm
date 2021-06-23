@@ -1,0 +1,106 @@
+/*
+This code was made to create a number of spiders starting at random places moving across the screen at random speeds within a set limit.
+
+It uses objects to create a base of spider statistics and then creates a function to use the information from said spiders to draw a spider and make it move.
+
+Nearer the end of the code an array of these spiders is created with random values asigned top each to determine its placement and speed. It then uses the generated array to draw all of those spiders with a for loop inside a draw function.
+
+Created by Stephen Rhoades on 2/12/2021
+Last edited 2/12/2021
+*/
+
+//creates the Spider object type
+var Spider = function(bodyX, bodyY, xSpeed, ySpeed) {
+    this.bodyX = bodyX;
+    this.bodyY = bodyY;
+    this.xSpeed = xSpeed;
+    this.ySpeed = ySpeed;
+};
+
+//uses the info from the spider object to draw a spider and move it
+var drawSpider = function(spider) {
+    //positioning
+    var bodyX = spider.bodyX;
+    var bodyY = spider.bodyY;
+    
+    //sizing
+    var bodySize = 20;
+    var faceY = bodyY - bodySize / 2;
+    var faceSize = bodySize * 2/3;
+    var eyeSize = faceSize/ 9;
+    
+    //legs
+    strokeWeight(4);
+    
+    for ( var i=-1; i<= 2; i++) {
+        //left legs based on body size and cords.
+        line(bodyX - bodySize / 3, bodyY - bodySize * i / 8 , bodyX - bodySize * 3/4, bodyY -       bodySize * i / 4);
+        line(bodyX - bodySize * 3/4, bodyY - bodySize * i / 4, bodyX - bodySize, (bodyY -            bodySize * (i - 0.5) / 3 ) + bodySize/40);
+        
+        //right legs based on body size and cords.
+        line(bodyX + bodySize / 3, bodyY - bodySize * i / 8 , bodyX + bodySize * 3/4, bodyY -       bodySize * i / 4);
+        line(bodyX + bodySize * 3/4, bodyY - bodySize * i / 4, bodyX + bodySize, (bodyY -            bodySize * (i - 0.5) / 3 ) + bodySize/40);
+    }
+    
+    
+    //body
+    fill(89, 76, 11);
+    ellipse(bodyX, bodyY, bodySize, bodySize  * 0.9); // spider abdomen (body)
+    ellipse(bodyX, faceY, faceSize, faceSize); // spider chepalothorax (face)
+    
+    //eyes
+    fill(33, 56, 22);
+    
+    //main left eye
+    ellipse(bodyX - bodySize/12, faceY - bodySize/6, eyeSize * 2, eyeSize * 2); 
+    //main right eye
+    ellipse(bodyX + bodySize/12, faceY - bodySize/6, eyeSize * 2, eyeSize * 2); 
+    
+    //second row of eyes
+    ellipse(bodyX - bodySize/6, faceY - bodySize/12, eyeSize, eyeSize);
+    ellipse(bodyX + bodySize/6, faceY - bodySize/12, eyeSize, eyeSize);
+    
+    //third row of eyes
+    ellipse(bodyX - bodySize * 13/60, faceY, eyeSize, eyeSize);
+    ellipse(bodyX + bodySize * 13/60, faceY , eyeSize, eyeSize);
+    
+    //forth row of eyes
+    ellipse(bodyX - bodySize/4, faceY + bodySize/12, eyeSize, eyeSize);
+    ellipse(bodyX + bodySize/4, faceY + bodySize/12, eyeSize, eyeSize);
+    
+    //moves the spider
+    spider.bodyX += spider.xSpeed;
+    spider.bodyY += spider.ySpeed;
+    
+    //loops the spider around the screen
+    if (spider.bodyY < -bodySize) {
+        spider.bodyY = 400 + bodySize;
+    } else if (spider.bodyY > 400 + bodySize){
+        spider.bodyY = -bodySize;
+    }
+    if (spider.bodyX < -bodySize) {
+        spider.bodyX = 400 + bodySize;
+    } else if (spider.bodyX > 400 + bodySize){
+        spider.bodyX = -bodySize;
+    }
+};
+
+//determines the limit of the spider's speed on both axis
+var maxSpeed = 6;
+var minSpeed = 2;
+
+//initiates an array to fill with spider objects in the for loop
+var spiders = [];
+for (var num = 0; num < 40; num++) {
+    //creates new random spider
+    spiders.push(new Spider(random(0, 400), random(0, 400), (floor(random(0, 2)) * 2 - 1) * random(minSpeed, maxSpeed), random (-maxSpeed, maxSpeed)));
+}
+
+//draws each spider from the array
+draw = function() {
+    background(191, 234, 242);
+    for (var i = 0; i < spiders.length; i++){
+        drawSpider(spiders[i]);
+    }
+
+}; 
