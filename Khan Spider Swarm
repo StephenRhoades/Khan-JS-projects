@@ -1,3 +1,6 @@
+// Online Javascript Editor for free
+// Write, Edit and Run your Javascript code using JS Online Compiler
+
 /*
 This code was made to create a number of spiders starting at random places moving across the screen at random speeds within a set limit.
 
@@ -6,7 +9,7 @@ It uses objects to create a base of spider statistics and then creates a functio
 Nearer the end of the code an array of these spiders is created with random values asigned top each to determine its placement and speed. It then uses the generated array to draw all of those spiders with a for loop inside a draw function.
 
 Created by Stephen Rhoades on 2/12/2021
-Last edited 2/12/2021
+Last edited 1/24/2024
 */
 
 //creates the Spider object type
@@ -91,9 +94,9 @@ var minSpeed = 2;
 
 //initiates an array to fill with spider objects in the for loop
 var spiders = [];
-for (var num = 0; num < 40; num++) {
+for (var num = 0; num < 20; num++) {
     //creates new random spider
-    spiders.push(new Spider(random(0, 400), random(0, 400), (floor(random(0, 2)) * 2 - 1) * random(minSpeed, maxSpeed), random (-maxSpeed, maxSpeed)));
+    spiders.push(new Spider(Math.random()*400, Math.random()*400, (Math.floor(Math.random()*2) * 2 - 1) * (Math.random()*minSpeed+ maxSpeed), Math.random() *2 * maxSpeed - maxSpeed));
 }
 
 //draws each spider from the array
